@@ -1,0 +1,256 @@
+/* ============================================================
+   Floating chrome — topbar + tool palette
+   Kept light and recessive so the canvas stays the focus.
+   ============================================================ */
+
+/* ---- topbar (title left, actions right) ----------------------------------- */
+.topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  pointer-events: none; /* empty regions stay pannable */
+}
+.topbar > * {
+  pointer-events: auto;
+}
+
+.title-input {
+  max-width: 46%;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 5px 9px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.title-input::placeholder {
+  color: var(--text-faint);
+}
+.title-input:hover {
+  background: var(--hover);
+}
+.title-input:focus {
+  outline: none;
+  background: var(--bg-float);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-cluster,
+.zoom-cluster {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--bg-float);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius);
+  color: var(--text-soft);
+  transition: background 0.1s ease, color 0.1s ease;
+}
+.icon-btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.zoom-btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
+  font-size: 17px;
+  line-height: 1;
+  color: var(--text-soft);
+  transition: background 0.1s ease, color 0.1s ease;
+}
+.zoom-btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+.zoom-label {
+  min-width: 48px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: var(--radius);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-soft);
+  transition: background 0.1s ease, color 0.1s ease;
+}
+.zoom-label:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+/* ---- bottom tool palette -------------------------------------------------- */
+.toolbar {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 5px;
+  background: var(--bg-float);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.tool-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: var(--text-soft);
+  transition: background 0.1s ease, color 0.1s ease;
+}
+.tool-btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+.tool-btn.is-active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.toolbar-sep {
+  width: 1px;
+  height: 22px;
+  margin: 0 3px;
+  background: var(--border-strong);
+}
+
+/* disabled state for icon buttons (undo/redo when nothing to do) */
+.icon-btn:disabled {
+  color: var(--text-faint);
+  opacity: 0.45;
+  cursor: default;
+}
+.icon-btn:disabled:hover {
+  background: none;
+  color: var(--text-faint);
+}
+
+/* shift the title right so it clears the floating reopen button */
+.canvas-area.is-sidebar-collapsed .topbar {
+  padding-left: 56px;
+}
+
+/* ---- text format toolbar -------------------------------------------------- */
+.format-bar {
+  position: absolute;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px;
+  background: var(--bg-float);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  animation: fmt-in 0.12s ease;
+}
+@keyframes fmt-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fmt-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.fmt-btn {
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 7px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-soft);
+  transition: background 0.1s ease, color 0.1s ease;
+}
+.fmt-btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+.fmt-btn.is-active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.fmt-font {
+  font-size: 12.5px;
+}
+.fmt-minus,
+.fmt-plus {
+  font-size: 10px;
+  margin-left: 1px;
+  vertical-align: super;
+}
+
+.fmt-size {
+  min-width: 20px;
+  text-align: center;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-faint);
+}
+
+.fmt-sep {
+  width: 1px;
+  height: 18px;
+  margin: 0 2px;
+  background: var(--border-strong);
+}
+
+.fmt-swatches {
+  gap: 4px;
+  padding: 0 3px;
+}
+.fmt-swatch {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  transition: transform 0.1s ease;
+}
+.fmt-swatch:hover {
+  transform: scale(1.15);
+}

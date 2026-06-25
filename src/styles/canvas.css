@@ -1,0 +1,61 @@
+/* ============================================================
+   Canvas — viewport, infinite world, grid
+   ============================================================ */
+
+.canvas-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.canvas-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--bg-canvas);
+  /* let us own all pointer/wheel gestures */
+  touch-action: none;
+  user-select: none;
+  cursor: default;
+}
+.canvas-viewport.is-pan {
+  cursor: grab;
+}
+.canvas-viewport.is-pan:active {
+  cursor: grabbing;
+}
+.canvas-viewport.is-draw {
+  cursor: crosshair;
+}
+
+/* Dot grid painted in screen space; Grid.jsx sets size / position / opacity. */
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    var(--grid-dot) 1px,
+    transparent 1px
+  );
+  transition: opacity 0.15s ease;
+}
+
+/* World layer: holds everything in world coordinates. Canvas.jsx applies the
+   translate/scale transform inline. */
+.world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.world-svg {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none; /* shapes/connectors opt back in individually */
+}

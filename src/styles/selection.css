@@ -1,0 +1,75 @@
+/* ============================================================
+   Selection chrome (screen space) — constant pixel size at any zoom
+   ============================================================ */
+
+.selection-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* handles opt back in */
+  z-index: 4;
+}
+
+/* selected object outline */
+.sel-box {
+  position: absolute;
+  border: 1.5px solid var(--accent);
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+/* snap target highlight while drawing/binding a connector */
+.snap-highlight {
+  position: absolute;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  background: var(--accent-soft);
+  box-sizing: border-box;
+}
+
+/* 8 resize handles */
+.resize-handle {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -5px 0 0 -5px; /* center on the corner/edge point */
+  background: var(--bg-float);
+  border: 1.5px solid var(--accent);
+  border-radius: 2px;
+  pointer-events: auto;
+}
+
+/* connector endpoint markers + the thin guide line between them */
+.endpoint-handle {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  margin: -6px 0 0 -6px;
+  background: var(--bg-float);
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: auto;
+}
+.sel-line {
+  position: absolute;
+  height: 0;
+  border-top: 1px dashed var(--accent);
+  opacity: 0.5;
+}
+
+/* marquee drag rectangle */
+.marquee {
+  position: absolute;
+  border: 1px solid var(--accent);
+  background: var(--accent-soft);
+  box-sizing: border-box;
+}
+
+/* dashed preview while drawing a connector (SVG, inside the world layer) */
+.draft-conn line {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+}
+.draft-conn polygon {
+  fill: var(--accent);
+}
