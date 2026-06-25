@@ -4,6 +4,7 @@ import { db } from "../db/database.js";
 import { createNote, deleteNote, renameNote } from "../db/notesRepo.js";
 import { relativeTime } from "../utils/time.js";
 import { PlusIcon, SearchIcon, TrashIcon, ChevronLeftIcon } from "./Icons.jsx";
+import ConfirmDialog from "./ConfirmDialog.jsx";
 
 const MIN_W = 200;
 const MAX_W = 460;
@@ -13,6 +14,7 @@ export default function Sidebar({ activeId, onSelect, width, collapsed, onResize
   const [renamingId, setRenamingId] = useState(null);
   const [draftTitle, setDraftTitle] = useState("");
   const [resizing, setResizing] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState(null);
 
   // Tick so relative "edited 2m ago" labels stay current without an edit.
   const [, setTick] = useState(0);
@@ -39,15 +41,20 @@ export default function Sidebar({ activeId, onSelect, width, collapsed, onResize
     onSelect(note.id);
   };
 
-  const handleDelete = async (e, id) => {
-    e.stopPropagation();
+const requestDelete = (e, note) => {
+  e.stopPropagation();
+  setPendingDelete(note);
+};
+
+  const confirmDelete = async () => {
+    const id = pendingDelete.id;
     await deleteNote(id);
     if (id === activeId) {
       const remaining = ordered.filter((n) => n.id !== id);
       onSelect(remaining[0]?.id ?? null);
     }
+    setPendingDelete(null);
   };
-
   const startRename = (e, note) => {
     e.stopPropagation();
     setRenamingId(note.id);
@@ -142,7 +149,7 @@ export default function Sidebar({ activeId, onSelect, width, collapsed, onResize
               <button
                 className="note-delete"
                 title="Delete note"
-                onClick={(e) => handleDelete(e, note.id)}
+                onClick={(e) => requestDelete(e, note)}
               >
                 <TrashIcon width={15} height={15} />
               </button>
@@ -160,6 +167,13 @@ export default function Sidebar({ activeId, onSelect, width, collapsed, onResize
           aria-orientation="vertical"
         />
       )}
+        <ConfirmDialog
+          open={!!pendingDelete}
+          title="Delete this note?"
+          message={pendingDelete ? `“${pendingDelete.title}” will be permanently removed.` : ""}
+          onConfirm={confirmDelete}
+          onCancel={() => setPendingDelete(null)}
+        />
     </aside>
   );
 }

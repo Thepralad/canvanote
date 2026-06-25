@@ -8,12 +8,20 @@ import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts.js";
 import Sidebar from "./components/Sidebar.jsx";
 import Canvas from "./canvas/Canvas.jsx";
 import { SidebarIcon } from "./components/Icons.jsx";
+import WelcomeOverlay from "./components/WelcomeOverlay.jsx";
 
 export default function App() {
   const [activeId, setActiveId] = useState(null);
   const [booted, setBooted] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(264);
   const [collapsed, setCollapsed] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(
+  () => localStorage.getItem("moonote.welcomed") !== "1"
+  );
+  const dismissWelcome = () => {
+    localStorage.setItem("moonote.welcomed", "1");
+    setShowWelcome(false);
+  };
 
   // Live, creation-ordered list drives the sidebar and active-note logic.
   const notes = useLiveQuery(() => db.notes.toArray(), []);
@@ -79,6 +87,7 @@ export default function App() {
           </div>
         )}
       </main>
+       <WelcomeOverlay open={showWelcome} onGetStarted={dismissWelcome} />
     </div>
   );
 }
