@@ -5,6 +5,7 @@ const FONTS = [
   { label: "Sans", value: "" },
   { label: "Serif", value: "Georgia, 'Times New Roman', serif" },
   { label: "Mono", value: "ui-monospace, 'SF Mono', Menlo, monospace" },
+  { label: "Toony", value: "'Toony', cursive" },
 ];
 
 // Restrained palette for color-coding notes.

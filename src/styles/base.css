@@ -42,6 +42,12 @@
     Helvetica, Arial, sans-serif;
 }
 
+@font-face {
+  font-family: "Toony";
+  src: url("/fonts/Toddler_Writing.ttf") format("truetype");
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {
